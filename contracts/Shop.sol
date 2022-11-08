@@ -15,6 +15,7 @@ contract Shop {
 
   function Pricing(uint256 _price) public
   {
+    require(msg.sender == merchant);
     price = _price;
   } 
 

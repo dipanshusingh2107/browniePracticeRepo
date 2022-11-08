@@ -9,4 +9,3 @@ def deploy_merchant():
     shop = Shop.deploy({'from':merchant_account})
     assert(merchant_account == '0x66aB6D9362d4F35596279692F0251Db635165871')
     return shop
-

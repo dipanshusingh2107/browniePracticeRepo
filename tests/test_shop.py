@@ -41,7 +41,7 @@ def test_Pay():
 
 
 
-def test_withdraw():
+def test_withdraw_merchant():
     merchant_account = accounts[0]
     shop = deploy_merchant()
     shop.Pricing(1 * ETH, {"from": merchant_account})
@@ -49,6 +49,19 @@ def test_withdraw():
 
     merchantPrevBalance = merchant_account.balance()
     contractPrevBalance = shop.balance()
-    txn = shop.Withdraw()
+    txn = shop.Withdraw({"from":merchant_account})
     txnCost = txn.gas_used * txn.gas_price
     assert(merchant_account.balance() == contractPrevBalance+merchantPrevBalance - txnCost)
+
+def test_withdraw_buyer():
+    merchant_account = accounts[0]
+    buyer_account = accounts[1]
+    shop = deploy_merchant()
+    shop.Pricing(1 * ETH, {"from": merchant_account})
+    shop.Pay({"from": buyer_account, "value": 5 * ETH})
+
+    try:
+        txn = shop.Withdraw({"from":buyer_account})
+        assert(False)
+    except:
+        assert(True)
