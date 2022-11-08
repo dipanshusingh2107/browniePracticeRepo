@@ -39,6 +39,12 @@ def test_Pay():
 
     assert(shop.balance() == intial_balance - merchant_account.balance()-txnCost)
 
+    try:
+        shop.Pay(0.1 * ETH, {"from": merchant_account})
+        assert(False)
+    except:
+        assert(True)
+
 
 
 def test_withdraw_merchant():
